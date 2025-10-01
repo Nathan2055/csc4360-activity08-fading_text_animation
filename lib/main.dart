@@ -7,9 +7,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: FadingTextAnimation(),
-    );
+    return MaterialApp(home: FadingTextAnimation());
   }
 }
 
@@ -30,17 +28,12 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Fading Text Animation'),
-      ),
+      appBar: AppBar(title: Text('Fading Text Animation')),
       body: Center(
         child: AnimatedOpacity(
           opacity: _isVisible ? 1.0 : 0.0,
           duration: Duration(seconds: 1),
-          child: Text(
-            'Hello, Flutter!',
-            style: TextStyle(fontSize: 24),
-          ),
+          child: Text('Hello, Flutter!', style: TextStyle(fontSize: 24)),
         ),
       ),
       floatingActionButton: FloatingActionButton(
