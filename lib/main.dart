@@ -1,36 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: FadingTextAnimation());
-  }
+    return const FadingTextAnimation();
+}
 }
 
 class FadingTextAnimation extends StatefulWidget {
+  const FadingTextAnimation({super.key});
   @override
+
   _FadingTextAnimationState createState() => _FadingTextAnimationState();
 }
 
 class _FadingTextAnimationState extends State<FadingTextAnimation> {
-  // Variables for light and dark mode toggle
   ThemeMode _themeMode = ThemeMode.light;
   bool darkMode = false;
 
-  // Variables and callback for color picker
-  Color pickerColor = Color(0xff443a49);
-  Color currentColor = Color(0xff443a49);
-  void changeColor(Color color) {
-    setState(() => pickerColor = color);
-  }
-
-  // Variables and callback for text visibility
   bool _isVisible = true;
+  bool _showFrame = false;
+
   void toggleVisibility() {
     setState(() {
       _isVisible = !_isVisible;
@@ -48,7 +43,7 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
 
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Fading Text Animation'),
+          title: Text('Fading Text Animation'),
           actions: <Widget>[
             IconButton(
               // if dark mode, show sun; if light mode, show moon
@@ -65,55 +60,52 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
                 });
               },
             ),
-            IconButton(
-              icon: const Icon(Icons.color_lens),
-              tooltip: 'Set a text color',
-              onPressed: () => showDialog<String>(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  title: const Text('Pick a text color!'),
-                  content: SingleChildScrollView(
-                    child: ColorPicker(
-                      pickerColor: pickerColor,
-                      onColorChanged: changeColor,
-                    ),
-                  ),
-                  actions: <Widget>[
-                    ElevatedButton(
-                      child: const Text('Text color set!'),
-                      onPressed: () {
-                        setState(() => currentColor = pickerColor);
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
           ],
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: toggleVisibility,
-                child: AnimatedOpacity(
-                  opacity: _isVisible ? 1.0 : 0.0,
-                  duration: const Duration(seconds: 1),
-                  curve: Curves.easeInOut,
-                  child: Text(
-                    'Hello, Flutter!',
-                    style: TextStyle(fontSize: 24, color: currentColor),
-                  ),
-                ),
-              ),
-            ],
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+          AnimatedOpacity(
+            opacity: _isVisible ? 1.0 : 0.0,
+            duration: Duration(seconds: 1),
+            child: const  Text('Hello, Flutter!', 
+            style: TextStyle(fontSize: 24),
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: toggleVisibility,
-          child: Icon(Icons.play_arrow),
+        const SizedBox(height: 40),
+        Container(
+         decoration: _showFrame ? BoxDecoration(
+          border: Border.all(color: Colors.blue, width: 4),
+          borderRadius: BorderRadius.circular(16),
+        ) 
+        : null,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: Image.network(
+            'https://plus.unsplash.com/premium_photo-1698405316329-fd9c43d7e11c?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            width: 200,
+            height: 200,
+            fit: BoxFit.cover,
+          ),
+        ),
+        ),
+        const SizedBox(height: 20),
+
+        SwitchListTile(
+          title: const Text('Show Frame'),
+          value: _showFrame,
+          onChanged: (bool value) {
+            setState(() {
+              _showFrame = value;
+            });
+          },
+        ),
+      ],
+      ),
+
+      floatingActionButton : FloatingActionButton(
+        onPressed: toggleVisibility,
+        child: const Icon(Icons.play_arrow),
         ),
       ),
     );
