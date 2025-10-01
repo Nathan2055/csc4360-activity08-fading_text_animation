@@ -48,7 +48,7 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
 
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Fading Text Animation'),
+          title: const Text('Fading Text Animation'),
           actions: <Widget>[
             IconButton(
               // if dark mode, show sun; if light mode, show moon
@@ -94,6 +94,7 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
         ),
         body: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               AnimatedOpacity(
                 opacity: _isVisible ? 1.0 : 0.0,
