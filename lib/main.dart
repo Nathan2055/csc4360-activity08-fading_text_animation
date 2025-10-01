@@ -9,8 +9,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const PageViewDemo();
+  }
 }
-}
+
 class PageViewDemo extends StatelessWidget {
   const PageViewDemo({super.key});
 
@@ -34,9 +35,6 @@ class PageViewDemo extends StatelessWidget {
   }
 }
 
-
-
-
 class FadingTextAnimation extends StatefulWidget {
   final String title;
   final Duration duration;
@@ -48,7 +46,6 @@ class FadingTextAnimation extends StatefulWidget {
   });
 
   @override
-
   _FadingTextAnimationState createState() => _FadingTextAnimationState();
 }
 
@@ -98,47 +95,46 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-          AnimatedOpacity(
-            opacity: _isVisible ? 1.0 : 0.0,
-            duration: widget.duration,
-            child:   Text(widget.title, 
-            style: TextStyle(fontSize: 24),
-          ),
-        ),
-        const SizedBox(height: 40),
-        Container(
-         decoration: _showFrame ? BoxDecoration(
-          border: Border.all(color: Colors.blue, width: 4),
-          borderRadius: BorderRadius.circular(16),
-        ) 
-        : null,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(16),
-          child: Image.network(
-            'https://plus.unsplash.com/premium_photo-1698405316329-fd9c43d7e11c?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-            width: 200,
-            height: 200,
-            fit: BoxFit.cover,
-          ),
-        ),
-        ),
-        const SizedBox(height: 20),
+            AnimatedOpacity(
+              opacity: _isVisible ? 1.0 : 0.0,
+              duration: widget.duration,
+              child: Text(widget.title, style: TextStyle(fontSize: 24)),
+            ),
+            const SizedBox(height: 40),
+            Container(
+              decoration: _showFrame
+                  ? BoxDecoration(
+                      border: Border.all(color: Colors.blue, width: 4),
+                      borderRadius: BorderRadius.circular(16),
+                    )
+                  : null,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: Image.asset(
+                  'images/image.jpg',
+                  width: 200,
+                  height: 200,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
 
-        SwitchListTile(
-          title: const Text('Show Frame'),
-          value: _showFrame,
-          onChanged: (bool value) {
-            setState(() {
-              _showFrame = value;
-            });
-          },
+            SwitchListTile(
+              title: const Text('Show Frame'),
+              value: _showFrame,
+              onChanged: (bool value) {
+                setState(() {
+                  _showFrame = value;
+                });
+              },
+            ),
+          ],
         ),
-      ],
-      ),
 
-      floatingActionButton : FloatingActionButton(
-        onPressed: toggleVisibility,
-        child: const Icon(Icons.play_arrow),
+        floatingActionButton: FloatingActionButton(
+          onPressed: toggleVisibility,
+          child: const Icon(Icons.play_arrow),
         ),
       ),
     );
