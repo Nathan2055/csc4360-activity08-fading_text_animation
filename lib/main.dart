@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,11 +18,19 @@ class FadingTextAnimation extends StatefulWidget {
 }
 
 class _FadingTextAnimationState extends State<FadingTextAnimation> {
+  // Variables for light and dark mode toggle
   ThemeMode _themeMode = ThemeMode.light;
   bool darkMode = false;
 
-  bool _isVisible = true;
+  // Variables and callback for color picker
+  Color pickerColor = Color(0xff443a49);
+  Color currentColor = Color(0xff443a49);
+  void changeColor(Color color) {
+    setState(() => pickerColor = color);
+  }
 
+  // Variables and callback for text visibility
+  bool _isVisible = true;
   void toggleVisibility() {
     setState(() {
       _isVisible = !_isVisible;
@@ -56,13 +65,45 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
                 });
               },
             ),
+            IconButton(
+              icon: const Icon(Icons.color_lens),
+              tooltip: 'Set a text color',
+              onPressed: () => showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Pick a text color!'),
+                  content: SingleChildScrollView(
+                    child: ColorPicker(
+                      pickerColor: pickerColor,
+                      onColorChanged: changeColor,
+                    ),
+                  ),
+                  actions: <Widget>[
+                    ElevatedButton(
+                      child: const Text('Text color set!'),
+                      onPressed: () {
+                        setState(() => currentColor = pickerColor);
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
         body: Center(
-          child: AnimatedOpacity(
-            opacity: _isVisible ? 1.0 : 0.0,
-            duration: Duration(seconds: 1),
-            child: Text('Hello, Flutter!', style: TextStyle(fontSize: 24)),
+          child: Column(
+            children: [
+              AnimatedOpacity(
+                opacity: _isVisible ? 1.0 : 0.0,
+                duration: Duration(seconds: 1),
+                child: Text(
+                  'Hello, Flutter!',
+                  style: TextStyle(fontSize: 24, color: currentColor),
+                ),
+              ),
+            ],
           ),
         ),
         floatingActionButton: FloatingActionButton(
