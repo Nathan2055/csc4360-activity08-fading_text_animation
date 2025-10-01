@@ -8,12 +8,45 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return const FadingTextAnimation();
+    return const PageViewDemo();
 }
+}
+class PageViewDemo extends StatelessWidget {
+  const PageViewDemo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: PageView(
+        children: const [
+          FadingTextAnimation(
+            title: 'Fast Fade',
+            duration: Duration(seconds: 1),
+          ),
+          FadingTextAnimation(
+            title: 'Slow Fade',
+            duration: Duration(seconds: 3),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
+
+
+
 class FadingTextAnimation extends StatefulWidget {
-  const FadingTextAnimation({super.key});
+  final String title;
+  final Duration duration;
+
+  const FadingTextAnimation({
+    super.key,
+    required this.title,
+    required this.duration,
+  });
+
   @override
 
   _FadingTextAnimationState createState() => _FadingTextAnimationState();
@@ -67,8 +100,8 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
           children: [
           AnimatedOpacity(
             opacity: _isVisible ? 1.0 : 0.0,
-            duration: Duration(seconds: 1),
-            child: const  Text('Hello, Flutter!', 
+            duration: widget.duration,
+            child:   Text(widget.title, 
             style: TextStyle(fontSize: 24),
           ),
         ),
